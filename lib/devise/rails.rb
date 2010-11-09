@@ -14,7 +14,7 @@ module Devise
     end
 
     # Force routes to be loaded if we are doing any eager load.
-    config.before_eager_load { |app| app.reload_routes! }
+    config.before_eager_load { |app| app.reload_routes! unless Rails.env.test? }
 
     config.after_initialize do
       Devise.encryptor ||= begin
