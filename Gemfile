@@ -1,18 +1,27 @@
 source "http://rubygems.org"
 
-gem "rails", "3.0.0"
-gem "warden", "0.10.7"
-gem "sqlite3-ruby"
-gem "webrat", "0.7.0"
-gem "mocha", :require => false
-gem "bcrypt-ruby", :require => "bcrypt"
+gemspec
 
-if RUBY_VERSION < '1.9'
-  gem "ruby-debug", ">= 0.10.3"
+gem "rails", "~> 3.0.0"
+
+group :test do
+  gem "webrat", "0.7.2", :require => false
+  gem "mocha", :require => false
 end
 
-group :mongoid do
-  gem "mongo"
-  gem "mongoid", :git => "git://github.com/mongoid/mongoid.git"
-  gem "bson_ext"
+platforms :jruby do
+  gem 'activerecord-jdbcsqlite3-adapter'
+end
+
+platforms :ruby do
+  group :test do
+    gem "sqlite3-ruby"
+    gem "ruby-debug", ">= 0.10.3" if RUBY_VERSION < '1.9'
+  end
+
+  group :mongoid do
+    gem "mongo", "1.1.2"
+    gem "mongoid", "2.0.0.beta.20"
+    gem "bson_ext", "1.1.2"
+  end
 end

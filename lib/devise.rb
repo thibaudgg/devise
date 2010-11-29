@@ -67,7 +67,7 @@ module Devise
 
   # If http authentication is enabled by default.
   mattr_accessor :http_authenticatable
-  @@http_authenticatable = true
+  @@http_authenticatable = false
 
   # If http authentication is used for ajax requests.  True by default.
   mattr_accessor :http_authenticatable_on_xhr
@@ -263,6 +263,11 @@ module Devise
   #  end
   def self.warden(&block)
     @@warden_config_block = block
+  end
+
+  # Returns true if Rails version is bigger than 3.0.x
+  def self.rack_session?
+    Rails::VERSION::STRING[0,3] != "3.0"
   end
 
   # A method used internally to setup warden manager from the Rails initialize
